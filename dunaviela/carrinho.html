@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dunaviela - Carrinho</title>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #4A1F12;
+            overflow-x: hidden;
+            color: #F1D8CD;
+        }
+
+        .glass-card {
+            background: rgba(74, 31, 18, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(230, 194, 179, 0.2);
+        }
+
+        .bg-fixed-crochet {
+            background-image: url('./produtos/crochet-bg.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .overlay-gradient {
+            background: linear-gradient(180deg, rgba(74, 31, 18, 0.7) 0%, rgba(74, 31, 18, 0.95) 100%);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Accessiblity Focus States */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #E6C2B3;
+            outline-offset: 4px;
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-up {
+            opacity: 0;
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-fixed-crochet">
+    <div class="fixed inset-0 overlay-gradient -z-10"></div>
+
+    <!-- NavBar -->
+    <nav class="fixed top-0 w-full z-40 p-6 flex justify-between items-center">
+        <button onclick="window.history.back()"
+            class="flex items-center gap-2 text-sm uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity text-[#F1D8CD]">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Voltar</span>
+        </button>
+    </nav>
+
+    <main class="container mx-auto max-w-4xl px-4 pt-28 pb-20 relative z-10 animate-slide-up">
+        <h1 class="text-5xl font-bold mb-12 text-[#E6C2B3] text-center italic">Seu Carrinho</h1>
+
+        <!-- Cart Items -->
+        <div id="cart-items-container" class="space-y-4 mb-12">
+            <!-- Injected by JS -->
+            <div class="text-center opacity-50 py-12">Seu carrinho está vazio.</div>
+        </div>
+
+        <!-- Summary -->
+        <div id="cart-summary" class="glass-card p-8 rounded-[32px] hidden">
+            <div class="flex justify-between items-center mb-8 pb-8 border-b border-white/10">
+                <span class="text-xl font-light">Total</span>
+                <span id="cart-total" class="text-4xl font-bold text-[#E6C2B3]">R$ 0,00</span>
+            </div>
+
+            <button onclick="startCheckout()"
+                class="w-full h-16 bg-[#25D366] text-[#4A1F12] font-bold text-lg rounded-2xl hover:brightness-110 shadow-lg flex items-center justify-center gap-3 uppercase tracking-widest transition-all">
+                <span>Finalizar Pedido</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </main>
+
+    <!-- Pix Modal (Reusable logic) -->
+    <div id="pix-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+        <div class="w-full max-w-md glass-card rounded-[40px] p-8 transform scale-95 transition-transform">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold text-[#F1D8CD]">Pagamento via PIX</h3>
+                <p class="text-[#F1D8CD]/60 text-sm mt-2">Escaneie o QR Code para pagar</p>
+            </div>
+
+            <div class="bg-white p-4 rounded-3xl w-64 h-64 mx-auto mb-8 flex items-center justify-center">
+                <div id="qrcode"></div>
+            </div>
+
+            <div class="space-y-3">
+                <button onclick="copyPix()"
+                    class="w-full py-4 rounded-xl bg-white/10 border border-white/10 hover:bg-white/20 transition-all font-mono text-xs flex items-center justify-center gap-2">
+                    <span id="pix-key-display" class="truncate max-w-[200px]">Copia e Cola</span>
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                </button>
+
+                <button onclick="confirmOrder()"
+                    class="w-full py-4 rounded-xl bg-[#E6C2B3] text-[#4A1F12] font-bold uppercase tracking-widest hover:brightness-110 transition-all">
+                    Já fiz o pagamento
+                </button>
+                <button onclick="closeModal()" class="w-full py-4 rounded-xl text-sm opacity-60 hover:opacity-100">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="cart.js"></script>
+    <script>
+        // UI Logic
+        function renderCartPage() {
+            const cart = Cart.get();
+            const container = document.getElementById('cart-items-container');
+            const summary = document.getElementById('cart-summary');
+            const totalEl = document.getElementById('cart-total');
+
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="glass-card p-12 rounded-[32px] text-center"><p class="opacity-50 text-xl font-light">Seu carrinho está vazio.</p><a href="loja.html" class="inline-block mt-6 text-[#E6C2B3] border-b border-[#E6C2B3] pb-1">Ir para a Loja</a></div>';
+                summary.classList.add('hidden');
+                return;
+            }
+
+            summary.classList.remove('hidden');
+
+            cart.forEach((item, index) => {
+                const el = document.createElement('div');
+                el.className = 'glass-card p-4 rounded-3xl flex items-center gap-4 animate-slide-up';
+                // Fallback image if needed
+                el.innerHTML = `
+                    <div class="w-20 h-20 rounded-2xl bg-black/20 overflow-hidden flex-shrink-0">
+                        <img src="${item.image}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-bold text-[#E6C2B3]">${item.title}</h3>
+                        <p class="text-sm opacity-70">${item.price}</p>
+                    </div>
+                    <button onclick="Cart.remove(${index})" class="p-3 hover:bg-white/10 rounded-full transition-colors text-red-300">
+                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                    </button>
+                `;
+                container.appendChild(el);
+            });
+
+            const total = Cart.total();
+            totalEl.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // Re-render icons for new elements
+            lucide.createIcons();
+        }
+
+        // Checkout & Pix Logic
+        let pixPayload = '';
+
+        // CRC16 Helper
+        function crc16(data) {
+            let crc = 0xFFFF;
+            for (let i = 0; i < data.length; i++) {
+                crc ^= data.charCodeAt(i) << 8;
+                for (let j = 0; j < 8; j++) {
+                    if ((crc & 0x8000) !== 0) {
+                        crc = (crc << 1) ^ 0x1021;
+                    } else {
+                        crc <<= 1;
+                    }
+                }
+            }
+            return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+        }
+
+        function generatePixPayload(amount) {
+            const key = "4b1a87dc-f47b-4df8-9a83-565e92a475c4"; // Duna's Key
+            const name = "DUNAVIELA";
+            const city = "CURITIBA";
+            const pad = (id, value) => id + value.length.toString().padStart(2, '0') + value;
+
+            const gui = "0014br.gov.bcb.pix";
+            const keyField = pad("01", key);
+            const merchantAccountInfo = pad("26", gui + keyField);
+
+            let payload = "000201";
+            payload += merchantAccountInfo;
+            payload += "52040000";
+            payload += "5303986"; // BRL
+
+            if (amount) payload += pad("54", amount.toFixed(2));
+
+            payload += "5802BR";
+            payload += pad("59", name.substring(0, 25));
+            payload += pad("60", city.substring(0, 15));
+            payload += "62070503***";
+            payload += "6304";
+
+            return payload + crc16(payload);
+        }
+
+        function startCheckout() {
+            const total = Cart.total();
+            pixPayload = generatePixPayload(total);
+
+            // Show Modal
+            const modal = document.getElementById('pix-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+
+            // Render QR
+            document.getElementById('qrcode').innerHTML = '';
+            new QRCode(document.getElementById('qrcode'), {
+                text: pixPayload,
+                width: 200,
+                height: 200,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+
+            document.getElementById('pix-key-display').innerText = pixPayload.substring(0, 20) + '...';
+        }
+
+        function closeModal() {
+            document.getElementById('pix-modal').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function copyPix() {
+            navigator.clipboard.writeText(pixPayload);
+            Cart.showToast('Código Pix copiado!');
+        }
+
+        function confirmOrder() {
+            const cart = Cart.get();
+            const total = Cart.total().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            let message = `*Nova Encomenda - Dunaviela*\n\n`;
+            message += `------------------------------\n`;
+            cart.forEach(item => {
+                message += `• ${item.title} - ${item.price}\n`;
+            });
+            message += `------------------------------\n`;
+            message += `*Total Pago: ${total}*\n`;
+            message += `\nStatus: *Pagamento Confirmado pelo Cliente*`;
+
+            const url = `https://wa.me/554196683263?text=${encodeURIComponent(message)}`;
+
+            // Validate clear cart? Maybe keep it for record? Let's clear it for UX.
+            Cart.clear();
+
+            window.open(url, '_blank');
+            window.location.href = 'index.html';
+        }
+
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

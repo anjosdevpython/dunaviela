@@ -1,0 +1,10 @@
+[build]
+  command   = "npm run build"
+  publish   = "dist"
+
+# Necessário para SPA com React Router:
+# qualquer rota que não seja arquivo estático redireciona para index.html
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dunaviela - Loja</title>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #4A1F12;
+            overflow-x: hidden;
+            color: #F1D8CD;
+        }
+
+        .glass-card {
+            background: rgba(74, 31, 18, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(230, 194, 179, 0.2);
+        }
+
+        .bg-fixed-crochet {
+            background-image: url('./produtos/crochet-bg.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .overlay-gradient {
+            background: linear-gradient(180deg, rgba(74, 31, 18, 0.7) 0%, rgba(74, 31, 18, 0.95) 100%);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Accessiblity Focus States */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #E6C2B3;
+            outline-offset: 4px;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #4A1F12;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+
+        .loader-dot {
+            width: 10px;
+            height: 10px;
+            background: #E6C2B3;
+            border-radius: 50%;
+            margin: 0 4px;
+            animation: loader-dots 1.4s infinite ease-in-out both;
+        }
+
+        .loader-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loader-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes loader-dots {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1.0);
+            }
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-up {
+            opacity: 0;
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Hover Effects */
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+            border-color: rgba(230, 194, 179, 0.4);
+        }
+
+        .image-container img {
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .image-container img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-fixed-crochet">
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+    </div>
+
+    <!-- Overlay principal -->
+    <div class="fixed inset-0 overlay-gradient -z-10"></div>
+
+    <!-- Botão Voltar -->
+    <button onclick="window.location.href='./index.html'"
+        class="fixed top-8 left-6 md:left-12 z-50 flex items-center gap-2 text-sm uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity group text-[#F1D8CD]">
+        <i data-lucide="arrow-left" class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"></i>
+        <span>Voltar</span>
+    </button>
+
+    <main class="container mx-auto px-4 md:px-6 pt-28 pb-20 relative z-10">
+        <!-- Header -->
+        <header class="text-center mb-16 animate-slide-up" style="animation-delay: 0.1s;">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 tracking-tighter lowercase text-[#F1D8CD]">Catálogo</h1>
+            <div class="w-20 h-1 bg-gradient-to-r from-[#E6C2B3] to-transparent mx-auto mb-6"></div>
+            <p class="text-lg md:text-xl font-light italic opacity-80">Peças únicas, feitas à mão.</p>
+        </header>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto animate-slide-up"
+            style="animation-delay: 0.2s;">
+
+            <!-- Produto 1: Bolsa -->
+            <a href="produto.html?id=bolsa" class="block">
+                <div class="glass-card rounded-[32px] overflow-hidden product-card h-full flex flex-col">
+                    <div class="aspect-[4/5] w-full overflow-hidden image-container relative">
+                        <img src="./produtos/bolsa_foto1.jfif" alt="Bolsa Fio de Malha"
+                            class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent">
+                            <span
+                                class="inline-block px-3 py-1 bg-[#E6C2B3] text-[#4A1F12] text-xs font-bold uppercase tracking-widest rounded-full">Disponível</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-bold mb-2 text-[#E6C2B3]">Bolsa Fio de Malha</h3>
+                        <p class="text-sm opacity-70 mb-4 line-clamp-2">Feita com fio de malha e zíper de jaqueta, ótima
+                            para o dia a dia.</p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <span class="text-xl font-light">R$ 200,00</span>
+                            <span
+                                class="w-10 h-10 rounded-full border border-[#E6C2B3]/30 flex items-center justify-center">
+                                <i data-lucide="arrow-right" class="w-4 h-4 text-[#E6C2B3]"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Produto 2: Conjunto Ana -->
+            <a href="produto.html?id=conjunto-ana" class="block">
+                <div class="glass-card rounded-[32px] overflow-hidden product-card h-full flex flex-col">
+                    <div class="aspect-[4/5] w-full overflow-hidden image-container relative">
+                        <img src="./produtos/Cropped_saia.jfif" alt="Conjunto Ana" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent">
+                            <span
+                                class="inline-block px-3 py-1 bg-[#E6C2B3] text-[#4A1F12] text-xs font-bold uppercase tracking-widest rounded-full">Destaque</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-bold mb-2 text-[#E6C2B3]">Conjunto Ana</h3>
+                        <p class="text-sm opacity-70 mb-4 line-clamp-2">Cropped borboleta e saída de praia. Design
+                            moderno para o verão.</p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <span class="text-xl font-light">R$ 220,00</span>
+                            <span
+                                class="w-10 h-10 rounded-full border border-[#E6C2B3]/30 flex items-center justify-center">
+                                <i data-lucide="arrow-right" class="w-4 h-4 text-[#E6C2B3]"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-20 pt-10 border-t border-white/5 animate-slide-up" style="animation-delay: 0.3s;">
+            <div class="text-xs opacity-40 uppercase tracking-[0.3em] flex flex-col items-center gap-2">
+                <span>&copy; <span id="year"></span> Dunaviela Ateliê</span>
+                <a href="https://allananjos.dev.br/" target="_blank" rel="noopener noreferrer"
+                    class="hover:opacity-100 transition-opacity">
+                    By Allan Anjos
+                </a>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Floating Cart Button -->
+    <a href="carrinho.html"
+        class="fixed top-8 right-6 md:right-12 z-50 p-4 bg-[#E6C2B3] text-[#4A1F12] rounded-full shadow-2xl hover:scale-110 transition-transform group">
+        <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+        <span id="cart-count"
+            class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-[#4A1F12] hidden">0</span>
+    </a>
+
+    <script src="cart.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            Cart.updateUI(); // Init cart
+
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+            }, 600);
+        });
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

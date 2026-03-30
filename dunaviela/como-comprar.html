@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dunaviela - Como Comprar</title>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #4A1F12;
+            overflow-x: hidden;
+            color: #F1D8CD;
+        }
+
+        .glass-card {
+            background: rgba(74, 31, 18, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(230, 194, 179, 0.2);
+        }
+
+        .bg-fixed-crochet {
+            background-image: url('./produtos/crochet-bg.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .overlay-gradient {
+            background: linear-gradient(180deg, rgba(74, 31, 18, 0.7) 0%, rgba(74, 31, 18, 0.95) 100%);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Accessiblity Focus States */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #E6C2B3;
+            outline-offset: 4px;
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-up {
+            opacity: 0;
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #4A1F12;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+
+        .loader-dot {
+            width: 10px;
+            height: 10px;
+            background: #E6C2B3;
+            border-radius: 50%;
+            margin: 0 4px;
+            animation: loader-dots 1.4s infinite ease-in-out both;
+        }
+
+        .loader-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loader-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes loader-dots {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1.0);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-fixed-crochet">
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+    </div>
+
+    <!-- Overlay principal -->
+    <div class="fixed inset-0 overlay-gradient -z-10"></div>
+
+    <!-- Botão Voltar -->
+    <button onclick="window.location.href='./index.html'"
+        class="fixed top-8 left-6 md:left-12 z-50 flex items-center gap-2 text-sm uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity group text-[#F1D8CD]">
+        <i data-lucide="arrow-left" class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"></i>
+        <span>Voltar</span>
+    </button>
+
+    <main class="container mx-auto max-w-4xl px-4 md:px-6 pt-28 pb-20 relative z-10">
+        <!-- Header -->
+        <header class="text-center mb-16 animate-slide-up" style="animation-delay: 0.1s;">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 tracking-tighter lowercase text-[#F1D8CD] leading-none">como
+                comprar</h1>
+            <div class="w-20 h-1 bg-gradient-to-r from-[#E6C2B3] to-transparent mx-auto mb-6"></div>
+            <p class="text-lg md:text-xl font-light italic opacity-80">Do seu desejo à minha agulha.</p>
+        </header>
+
+        <!-- Encomendas Section -->
+        <section class="mb-20 animate-slide-up" style="animation-delay: 0.2s;">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold">Passo a passo</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Step 1 -->
+                <div
+                    class="glass-card p-8 rounded-[32px] text-center border-white/5 hover:border-[#E6C2B3]/30 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 mx-auto rounded-full border border-[#E6C2B3] flex items-center justify-center mb-6 group-hover:bg-[#E6C2B3] group-hover:text-[#4A2418] transition-all">
+                        <span class="text-xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 italic">Referência Visual</h3>
+                    <p class="opacity-70 font-light text-sm">Me envie uma referência visual, pode ser uma foto, um
+                        desenho ou uma inspiração.</p>
+                </div>
+                <!-- Step 2 -->
+                <div
+                    class="glass-card p-8 rounded-[32px] text-center border-white/5 hover:border-[#E6C2B3]/30 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 mx-auto rounded-full border border-[#E6C2B3] flex items-center justify-center mb-6 group-hover:bg-[#E6C2B3] group-hover:text-[#4A2418] transition-all">
+                        <span class="text-xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 italic">Suas Medidas</h3>
+                    <p class="opacity-70 font-light text-sm">Compartilhe suas medidas, assim consigo adaptar a criação
+                        ao seu corpo.</p>
+                </div>
+                <!-- Step 3 -->
+                <div
+                    class="glass-card p-8 rounded-[32px] text-center border-white/5 hover:border-[#E6C2B3]/30 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 mx-auto rounded-full border border-[#E6C2B3] flex items-center justify-center mb-6 group-hover:bg-[#E6C2B3] group-hover:text-[#4A2418] transition-all">
+                        <span class="text-xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 italic">Sua Intenção</h3>
+                    <p class="opacity-70 font-light text-sm">Como quer se sentir usando ela? Que história quer contar?
+                    </p>
+                </div>
+
+                <!-- Tabela de Medidas -->
+                <div class="glass-card p-8 rounded-[40px] md:col-span-3">
+                    <h2 class="text-3xl font-bold mb-6 text-center">Tabela de Medidas</h2>
+                    <p class="text-center mb-6 italic text-[#E6C2B3]"> – CROCHÊ (MEDIDAS DO CORPO) – </p>
+
+                    <p class="mb-8 text-center font-light opacity-90">As peças em crochê possuem leve elasticidade e se
+                        adaptam ao corpo.</p>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto mb-8">
+                        <table class="w-full text-sm md:text-base border-collapse">
+                            <thead>
+                                <tr class="border-b border-white/10 text-[#E6C2B3]">
+                                    <th class="p-4 text-center">TAMANHO</th>
+                                    <th class="p-4 text-center">BUSTO (cm)</th>
+                                    <th class="p-4 text-center">CINTURA (cm)</th>
+                                    <th class="p-4 text-center">CINTURA BAIXA (cm)</th>
+                                    <th class="p-4 text-center">QUADRIL (cm)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center font-light opacity-80">
+                                <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                    <td class="p-4 font-semibold">P (38)</td>
+                                    <td class="p-4">88 – 90</td>
+                                    <td class="p-4">68 – 70</td>
+                                    <td class="p-4">88 – 90</td>
+                                    <td class="p-4">98 – 100</td>
+                                </tr>
+                                <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                    <td class="p-4 font-semibold">M (40)</td>
+                                    <td class="p-4">92 – 94</td>
+                                    <td class="p-4">72 – 74</td>
+                                    <td class="p-4">92 – 94</td>
+                                    <td class="p-4">102 – 104</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="p-4 font-semibold">G (42)</td>
+                                    <td class="p-4">96 – 98</td>
+                                    <td class="p-4">76 – 78</td>
+                                    <td class="p-4">96 – 98</td>
+                                    <td class="p-4">106 – 108</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-sm md:text-base font-light opacity-80 space-y-4">
+                        <p>As medidas acima correspondem às medidas do corpo. Compare com as suas para encontrar o
+                            tamanho
+                            ideal.</p>
+                        <p>Por ser feito em crochê artesanal, o tecido possui leve elasticidade e se ajusta ao corpo,
+                            garantindo conforto e caimento.</p>
+                        <div class="mt-6 p-4 bg-[#E6C2B3]/5 rounded-2xl border border-[#E6C2B3]/10">
+                            <p><strong>Cintura:</strong> abaixo do busto</p>
+                            <p><strong>Cintura baixa:</strong> região dos flancos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Processo Sections -->
+        <div class="grid md:grid-cols-2 gap-6 mb-20 animate-slide-up" style="animation-delay: 0.3s;">
+            <div class="glass-card p-8 rounded-[40px]">
+                <h2 class="text-3xl font-bold mb-6">O ponto de partida</h2>
+                <h3 class="text-xl font-semibold mb-4 italic text-[#E6C2B3]">O primeiro ponto começa com você</h3>
+                <p class="text-lg font-light leading-relaxed mb-4 opacity-90">Para começar, peço 30% adiantado. Esse
+                    valor cobre os materiais e dá início ao seu processo.</p>
+                <p class="text-lg font-light leading-relaxed opacity-90">A criação começa assim: com confiança e
+                    intenção.</p>
+            </div>
+            <div class="glass-card p-8 rounded-[40px]">
+                <h2 class="text-3xl font-bold mb-6">Prazo e processo</h2>
+                <h3 class="text-xl font-semibold mb-4 italic text-[#E6C2B3]">Tempo que vira toque</h3>
+                <p class="text-lg font-light leading-relaxed mb-4 opacity-90">O prazo de confecção depende da
+                    complexidade da peça apenas.</p>
+                <div class="p-4 border border-[#E6C2B3]/20 bg-[#E6C2B3]/5 rounded-2xl italic font-light text-sm">
+                    Porque crochê é paciência: aqui, o tempo é parte da obra.
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center animate-slide-up" style="animation-delay: 0.4s;">
+            <a href="https://wa.me/554196683263" target="_blank"
+                class="inline-flex items-center gap-3 bg-[#25D366] text-[#4A1F12] px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:brightness-110 transition-all shadow-lg hover:shadow-[#25D366]/20">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                <span>Falar com a Duda</span>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-20 pt-10 border-t border-white/5 animate-slide-up" style="animation-delay: 0.5s;">
+            <div class="text-xs opacity-40 uppercase tracking-[0.3em] flex flex-col items-center gap-2">
+                <span>&copy; <span id="year"></span> Dunaviela Ateliê</span>
+                <a href="https://allananjos.dev.br/" target="_blank" rel="noopener noreferrer"
+                    class="hover:opacity-100 transition-opacity">
+                    By Allan Anjos
+                </a>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+            }, 600);
+        });
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

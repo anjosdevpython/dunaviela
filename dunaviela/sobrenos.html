@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dunaviela - Sobre Nós</title>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #4A1F12;
+            overflow-x: hidden;
+            color: #F1D8CD;
+        }
+
+        .glass-card {
+            background: rgba(74, 31, 18, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(230, 194, 179, 0.2);
+        }
+
+        .bg-fixed-crochet {
+            background-image: url('./produtos/crochet-bg.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .overlay-gradient {
+            background: linear-gradient(180deg, rgba(74, 31, 18, 0.7) 0%, rgba(74, 31, 18, 0.95) 100%);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Noise/Grain Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 50;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Accessiblity Focus States */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #E6C2B3;
+            outline-offset: 4px;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #4A1F12;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+
+        .loader-dot {
+            width: 10px;
+            height: 10px;
+            background: #E6C2B3;
+            border-radius: 50%;
+            margin: 0 4px;
+            animation: loader-dots 1.4s infinite ease-in-out both;
+        }
+
+        .loader-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loader-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes loader-dots {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1.0);
+            }
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-up {
+            opacity: 0;
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-fixed-crochet">
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+    </div>
+    <!-- Overlay principal -->
+    <div class="fixed inset-0 overlay-gradient -z-10"></div>
+
+    <!-- Botão Voltar -->
+    <button onclick="window.location.href='./index.html'"
+        class="fixed top-8 left-6 md:left-12 z-50 flex items-center gap-2 text-sm uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity group text-[#F1D8CD]">
+        <i data-lucide="arrow-left" class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"></i>
+        <span>Voltar</span>
+    </button>
+
+    <main class="container mx-auto max-w-4xl px-4 md:px-6 pt-28 pb-20 relative z-10">
+        <!-- Hero Section -->
+        <header class="text-center mb-16 md:mb-24 animate-slide-up" style="animation-delay: 0.1s;">
+            <div class="inline-block p-3 md:p-4 rounded-full border border-white/10 mb-6 md:mb-8 glass-card">
+                <img src="./logoduna.png" alt="Dunaviela Logo"
+                    class="w-32 h-32 md:w-44 md:h-44 rounded-full object-cover">
+            </div>
+            <h1 class="text-5xl md:text-8xl font-bold mb-4 tracking-tighter lowercase text-[#F1D8CD] leading-none">sobre
+                nós</h1>
+            <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-[#E6C2B3] to-transparent mx-auto mb-6 md:mb-8"></div>
+            <p class="text-lg md:text-2xl font-light italic opacity-80">conheça a essência da dunaviela.</p>
+        </header>
+
+        <!-- História Section -->
+        <section class="mb-20 animate-slide-up" style="animation-delay: 0.2s;">
+            <div class="glass-card p-8 md:p-12 rounded-[40px]">
+                <div class="flex items-center gap-4 mb-8">
+                    <i data-lucide="scissors" class="w-8 h-8 text-[#E6C2B3]"></i>
+                    <h2 class="text-4xl md:text-5xl font-bold italic">Costura de rua!</h2>
+                </div>
+                <div class="space-y-6 text-lg md:text-xl leading-relaxed font-light text-[#F1D8CD]/90">
+                    <p>A Dunaviela não nasceu em grandes ateliês ou lojas sofisticadas.</p>
+                    <p>Ela surgiu da vontade de transformar em fios aquilo que me atravessa, da necessidade de criar
+                        algo que fosse mais que uma peça, fosse uma história.</p>
+                    <p>Com um olhar atento ao mundo e à essência do feito à mão, cada peça é pensada, planejada e
+                        executada com total cuidado.</p>
+                    <p>Aqui, cada ponto é mais do que técnica: é a expressão de uma ideia, de um sentimento. E por trás
+                        de cada criação, há uma artesã que entende o poder de conectar história, design e tempo.</p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Footer -->
+        <footer class="text-center pb-20 animate-slide-up" style="animation-delay: 0.5s;">
+            <div class="glass-card p-12 rounded-[50px]">
+                <div class="mb-12">
+                    <h2 class="text-3xl md:text-4xl font-light italic mb-4">Dunaviela é resistência que se veste.</h2>
+                    <p class="text-xl opacity-80 font-light leading-relaxed">Cada ponto tem intenção, cada peça tem
+                        história.<br>Se você valoriza o feito à mão, com alma e presença, esse é o seu lugar.</p>
+                </div>
+                <div class="pt-12 border-t border-white/10">
+                    <h3 class="text-2xl font-semibold mb-4 italic">Obrigada por chegar até aqui.</h3>
+                    <p class="text-lg opacity-80 mb-10 font-light">Tô por aqui, com linha, café e coração.</p>
+                    <div class="flex flex-col items-center">
+                        <p class="text-sm uppercase tracking-widest opacity-60 mb-2">Com carinho,</p>
+                        <p class="text-4xl font-bold italic text-[#E6C2B3]">Eduarda Teles.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 text-xs opacity-40 uppercase tracking-[0.3em] flex flex-col items-center gap-2">
+                <span>&copy; <span id="year"></span> Dunaviela Ateliê</span>
+                <a href="https://allananjos.dev.br/" target="_blank" rel="noopener noreferrer"
+                    class="hover:opacity-100 transition-opacity">
+                    By Allan Anjos
+                </a>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+            }, 600);
+        });
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

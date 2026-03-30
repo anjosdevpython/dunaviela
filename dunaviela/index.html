@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Dunaviela - Artesanato em Crochê Autoral. Design urbano único que veste a alma da rua. Criatividade em cada ponto, conexão em cada peça." />
+    <meta name="keywords" content="crochê, artesanato, dunaviela, design autoral, moda urbana, handmade, Curitiba" />
+    <meta name="author" content="Dunaviela" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Dunaviela | Artesanato em Crochê" />
+    <meta property="og:description" content="Costuramos história antes de costurar moda." />
+    <meta property="og:image" content="https://dunaviela.netlify.app/logoduna.png" />
+    <meta property="og:url" content="https://dunaviela.netlify.app" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dunaviela | Artesanato em Crochê" />
+    <meta name="twitter:description" content="Costuramos história antes de costurar moda." />
+    <meta name="twitter:image" content="https://dunaviela.netlify.app/logoduna.png" />
+
+    <title>Dunaviela | Artesanato em Crochê</title>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #4A1F12;
+            overflow-x: hidden;
+        }
+
+        /* Custom Classes from Original Project */
+        .glass-card {
+            background: rgba(74, 31, 18, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(230, 194, 179, 0.2);
+        }
+
+        .bg-fixed-crochet {
+            background-image: url('./produtos/crochet-bg.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .overlay-gradient {
+            background: linear-gradient(180deg, rgba(74, 31, 18, 0.7) 0%, rgba(74, 31, 18, 0.95) 100%);
+        }
+
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, #E6C2B3 0%, #D1A594 100%);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-up {
+            animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-zoom-in {
+            animation: zoomIn 0.5s ease-out forwards;
+        }
+
+        /* Initial States for JS Transitions */
+        .opacity-0 {
+            opacity: 0;
+        }
+
+        .opacity-100 {
+            opacity: 1;
+        }
+
+        .translate-y-16 {
+            transform: translateY(4rem);
+        }
+
+        .translate-y-0 {
+            transform: translateY(0);
+        }
+
+        /* Utility for transitions */
+        .transition-layout {
+            transition-property: opacity, transform;
+            transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+            transition-duration: 1000ms;
+        }
+
+        /* Flip Card Effects */
+        .flip-card {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner,
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front {
+            z-index: 2;
+            background: #6B2F1A;
+        }
+
+        .flip-card-back {
+            z-index: 1;
+            background: white;
+            transform: rotateY(180deg);
+            padding: 1rem;
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #6B2F1A;
+            /* Fallback */
+        }
+
+        #qrcode canvas,
+        #qrcode img,
+        #share-qrcode canvas,
+        #share-qrcode img {
+            max-width: 100%;
+            height: auto !important;
+            margin: 0 auto;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: -1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Accessiblity Focus States */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #E6C2B3;
+            outline-offset: 4px;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #4A1F12;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+
+        .loader-dot {
+            width: 12px;
+            height: 12px;
+            background: #E6C2B3;
+            border-radius: 50%;
+            margin: 0 4px;
+            animation: loader-dots 1.4s infinite ease-in-out both;
+        }
+
+        .loader-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loader-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes loader-dots {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1.0);
+            }
+        }
+
+        /* Professional Icon Animation */
+        .icon-hover-effect {
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .group:hover .icon-hover-effect {
+            transform: scale(1.15) translateY(-4px) rotate(-5deg);
+            filter: drop-shadow(0 0 12px rgba(230, 194, 179, 0.6));
+            color: #E6C2B3;
+        }
+    </style>
+</head>
+
+<body class="bg-fixed-crochet">
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+    </div>
+
+    <div
+        class="min-h-screen w-full relative overflow-x-hidden flex items-center justify-center py-8 md:py-16 px-4 md:px-8 bg-fixed-crochet">
+        <!-- Overlay -->
+        <div class="absolute inset-0 overlay-gradient -z-10"></div>
+
+        <!-- Main Card -->
+        <main id="main-card"
+            class="w-full max-w-6xl glass-card rounded-[48px] md:rounded-[64px] p-6 md:p-12 lg:p-16 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.6)] flex flex-col lg:flex-row gap-12 lg:gap-24 transition-layout opacity-0 translate-y-16">
+
+            <!-- Coluna Esquerda: Branding -->
+            <section class="flex flex-col items-center lg:w-1/2 text-center">
+
+                <!-- Flip Card (Logo / Share QR) -->
+                <div class="relative group mb-10 flip-card w-40 h-40 md:w-44 md:h-44"
+                    onclick="this.classList.toggle('flipped')">
+                    <!-- Glow effect -->
+                    <div
+                        class="absolute inset-0 bg-[#E6C2B3]/20 rounded-full blur-2xl group-hover:bg-[#E6C2B3]/30 transition-all duration-500">
+                    </div>
+
+                    <div class="flip-card-inner w-full h-full relative z-10">
+                        <!-- Front: Logo -->
+                        <div class="flip-card-front w-full h-full border border-white/10 p-1 shadow-2xl">
+                            <div class="w-full h-full rounded-full overflow-hidden">
+                                <img src="./logoduna.png" alt="Dunaviela Logo" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+
+                        <!-- Back: Share QR Code -->
+                        <div class="flip-card-back w-full h-full bg-white border border-white/10 p-4 md:p-6 shadow-2xl">
+                            <div id="share-qrcode" class="w-full h-full flex items-center justify-center"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <p id="dynamic-greeting"
+                        class="text-[#E6C2B3] text-xs font-bold tracking-[0.4em] uppercase opacity-0 transition-opacity duration-1000">
+                    </p>
+                    <h1 class="text-[#F1D8CD] text-6xl md:text-8xl font-bold tracking-tight">Dunaviela</h1>
+                    <div class="w-20 h-1 bg-gradient-to-r from-[#E6C2B3] to-transparent mx-auto"></div>
+                    <p class="text-[#F1D8CD] text-xl md:text-2xl font-light italic leading-tight">"Costuramos história
+                        antes de costurar moda"</p>
+
+                    <div class="pt-8 space-y-6">
+                        <p
+                            class="text-[#F1D8CD]/80 text-base md:text-lg font-light leading-relaxed max-w-sm hidden md:block">
+                            O crochê autoral que veste a alma urbana. Criatividade em cada ponto, conexão em cada peça.
+                        </p>
+                        <div
+                            class="inline-flex items-center gap-3 py-2 px-6 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-default">
+                            <div class="relative flex h-2 w-2">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </div>
+                            <span class="text-[#E6C2B3] text-[10px] font-bold tracking-[0.3em] uppercase">Ateliê
+                                Aberto</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Coluna Direita: Interatividade -->
+            <section class="flex flex-col gap-8 lg:w-1/2 w-full justify-center">
+
+                <!-- Ações Sociais e Contato -->
+                <div class="grid grid-cols-2 gap-4 w-full">
+                    <a href="https://wa.me/554196683263" target="_blank" rel="noopener noreferrer"
+                        class="group relative flex flex-col items-center justify-center p-6 rounded-[32px] border border-white/5 bg-white/[0.03] transition-all duration-500 hover:bg-white/[0.08] hover:border-[#25D366]/30">
+                        <i data-lucide="message-circle" class="w-8 h-8 text-[#25D366] mb-3 icon-hover-effect"></i>
+                        <span
+                            class="text-[11px] text-[#F1D8CD]/70 font-semibold tracking-widest uppercase group-hover:text-[#F1D8CD] transition-colors">WhatsApp</span>
+                    </a>
+
+                    <a href="https://www.instagram.com/dunaviela" target="_blank" rel="noopener noreferrer"
+                        class="group relative flex flex-col items-center justify-center p-6 rounded-[32px] border border-white/5 bg-white/[0.03] transition-all duration-500 hover:bg-white/[0.08] hover:border-[#E6C2B3]/30">
+                        <i data-lucide="instagram" class="w-8 h-8 text-[#E6C2B3] mb-3 icon-hover-effect"></i>
+                        <span
+                            class="text-[11px] text-[#F1D8CD]/70 font-semibold tracking-widest uppercase group-hover:text-[#F1D8CD] transition-colors">Instagram</span>
+                    </a>
+
+                    <a href="https://maps.app.goo.gl/WfLCZaGWhP9MYHEeA" target="_blank" rel="noopener noreferrer"
+                        class="group relative flex flex-col items-center justify-center p-6 rounded-[32px] border border-white/5 bg-white/[0.03] transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
+                        <i data-lucide="map-pin" class="w-8 h-8 text-[#F1D8CD] mb-3 icon-hover-effect"></i>
+                        <span
+                            class="text-[11px] text-[#F1D8CD]/70 font-semibold tracking-widest uppercase group-hover:text-[#F1D8CD] transition-colors">Local</span>
+                    </a>
+
+                    <a href="./loja.html"
+                        class="group relative flex flex-col items-center justify-center p-6 rounded-[32px] border border-white/5 bg-white/[0.03] transition-all duration-500 hover:bg-white/[0.08] hover:border-[#E6C2B3]/30">
+                        <i data-lucide="shopping-bag" class="w-8 h-8 text-[#E6C2B3] mb-3 icon-hover-effect"></i>
+                        <span
+                            class="text-[11px] text-[#F1D8CD]/70 font-semibold tracking-widest uppercase group-hover:text-[#F1D8CD] transition-colors">Loja</span>
+                    </a>
+                </div>
+
+                <!-- Botões de Conversão -->
+                <div class="flex flex-col gap-4">
+                    <a href="./sobrenos.html"
+                        class="group w-full h-20 bg-white/5 border border-white/10 rounded-[32px] flex items-center justify-between px-8 transition-all hover:bg-white/10 hover:border-[#E6C2B3]/40 active:scale-95 overflow-hidden relative">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 bg-[#E6C2B3]/10 rounded-2xl group-hover:bg-[#E6C2B3]/20 transition-colors">
+                                <i data-lucide="book-open" class="w-5 h-5 text-[#E6C2B3]"></i>
+                            </div>
+                            <span class="text-[#F1D8CD] font-bold text-sm tracking-widest uppercase">Sobre Nós</span>
+                        </div>
+                        <i data-lucide="external-link"
+                            class="w-5 h-5 text-[#F1D8CD]/30 group-hover:translate-x-1 group-hover:text-[#E6C2B3] transition-all"></i>
+                    </a>
+
+
+
+                    <a href="./como-comprar.html"
+                        class="group w-full h-20 bg-white/5 border border-white/10 rounded-[32px] flex items-center justify-between px-8 transition-all hover:bg-white/10 hover:border-[#E6C2B3]/40 active:scale-95 overflow-hidden relative">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 bg-[#E6C2B3]/10 rounded-2xl group-hover:bg-[#E6C2B3]/20 transition-colors">
+                                <i data-lucide="help-circle" class="w-5 h-5 text-[#E6C2B3]"></i>
+                            </div>
+                            <span class="text-[#F1D8CD] font-bold text-sm tracking-widest uppercase">Como Comprar</span>
+                        </div>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-[#F1D8CD]/30 group-hover:translate-x-1 group-hover:text-[#E6C2B3] transition-all"></i>
+                    </a>
+
+
+                </div>
+
+                <!-- Footer -->
+                <footer class="mt-6 pt-10 border-t border-white/5">
+                    <div class="flex flex-col items-center gap-3 opacity-40 hover:opacity-100 transition-opacity">
+                        <span class="text-[#F1D8CD] text-[10px] uppercase tracking-[0.4em] font-bold">Dunaviela ©
+                            2026</span>
+                        <span class="text-[#F1D8CD] text-[9px] uppercase tracking-[0.2em]">Curitiba/PR</span>
+                        <a href="https://allananjos.dev.br/" target="_blank" rel="noopener noreferrer"
+                            class="text-[#F1D8CD] text-[9px] uppercase tracking-[0.2em] border-b border-transparent hover:border-[#F1D8CD]/40 transition-all pb-1 mt-2">
+                            By Allan Anjos
+                        </a>
+                    </div>
+                </footer>
+            </section>
+        </main>
+    </div>
+
+    <!-- Pix Modal Overlay -->
+    <div id="pix-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <!-- Modal Content -->
+        <div id="pix-modal-content"
+            class="w-full max-w-lg glass-card rounded-[40px] p-6 md:p-8 transform scale-95 opacity-0 translate-y-4 transition-all duration-300 relative max-h-[90vh] overflow-y-auto">
+
+            <!-- Close Button -->
+            <button onclick="closePixModal()"
+                class="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-[#F1D8CD] transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center p-4 rounded-full bg-[#E6C2B3]/10 mb-4">
+                    <i data-lucide="wallet" class="w-8 h-8 text-[#E6C2B3]"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-[#F1D8CD]">Pagamento via PIX</h3>
+                <p class="text-[#F1D8CD]/60 text-sm mt-2">Gere o código QR para pagamento instantâneo</p>
+            </div>
+
+            <!-- Body -->
+            <div class="space-y-6">
+                <div class="group relative">
+                    <input id="pix-value-input" type="text" placeholder="R$ 0,00"
+                        class="w-full bg-black/40 border border-white/10 rounded-3xl py-8 px-6 text-[#F1D8CD] placeholder-white/10 focus:outline-none focus:border-[#E6C2B3]/40 focus:ring-4 focus:ring-[#E6C2B3]/5 transition-all text-center text-4xl font-bold tracking-tight" />
+                </div>
+
+                <button id="generate-pix-btn" onclick="generatePix()" disabled
+                    class="w-full h-16 bg-[#E6C2B3] text-[#4A1F12] font-bold rounded-2xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-20 disabled:grayscale disabled:pointer-events-none shadow-xl">
+                    <i data-lucide="qr-code" class="w-5 h-5"></i>
+                    GERAR QR CODE
+                </button>
+            </div>
+
+            <!-- QR Container -->
+            <div id="qr-result-container"
+                class="hidden flex-col items-center gap-8 pt-8 mt-8 border-t border-white/5 animate-zoom-in">
+                <div class="p-6 bg-white rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative group">
+                    <div
+                        class="absolute inset-0 bg-white/50 blur-xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full -z-10">
+                    </div>
+                    <div id="qrcode"></div>
+                </div>
+
+                <div class="w-full space-y-4">
+                    <div class="text-center">
+                        <p class="text-[#F1D8CD]/40 text-[10px] font-medium uppercase tracking-widest">
+                            Código Pix Copia e Cola</p>
+                    </div>
+
+                    <button id="copy-btn" onclick="copyToClipboard()"
+                        class="w-full group h-14 rounded-xl px-5 flex items-center justify-between transition-all duration-300 border bg-white/5 border-white/10 text-[#F1D8CD] hover:bg-white/10">
+                        <span id="payload-text" class="truncate text-xs font-mono opacity-40 max-w-[200px]"></span>
+                        <div id="copy-status-container"
+                            class="flex items-center gap-3 font-bold text-[10px] uppercase tracking-widest shrink-0">
+                            <!-- Initial State -->
+                            <span class="copy-text">Copiar</span>
+                            <i data-lucide="copy"
+                                class="w-4 h-4 group-hover:translate-x-0.5 transition-transform copy-icon"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // State
+        let pixValue = '';
+        let pixPayload = '';
+
+        // Initialize Icons
+        lucide.createIcons();
+
+        // --- PIX Logic ---
+
+        // Modal Control
+        const modal = document.getElementById('pix-modal');
+        const modalContent = document.getElementById('pix-modal-content');
+
+        function openPixModal() {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95', 'opacity-0', 'translate-y-4');
+            modalContent.classList.add('scale-100', 'opacity-100', 'translate-y-0');
+        }
+
+        function closePixModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100', 'opacity-100', 'translate-y-0');
+            modalContent.classList.add('scale-95', 'opacity-0', 'translate-y-4');
+        }
+
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closePixModal();
+            }
+        });
+
+        // Currency Formatter
+        const input = document.getElementById('pix-value-input');
+        const generateBtn = document.getElementById('generate-pix-btn');
+
+        input.addEventListener('input', (e) => {
+            const val = e.target.value;
+            const formatted = formatCurrency(val);
+            e.target.value = formatted;
+            pixValue = formatted;
+
+            // Validation
+            if (!formatted || formatted === 'R$ 0,00') {
+                generateBtn.disabled = true;
+            } else {
+                generateBtn.disabled = false;
+            }
+        });
+
+        function formatCurrency(value) {
+            const digits = value.replace(/\D/g, '');
+            const number = parseInt(digits, 10) / 100;
+            if (isNaN(number)) return '';
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+            }).format(number);
+        }
+
+        function getRawAmount(formattedValue) {
+            return formattedValue.replace(/[^\d,]/g, '').replace(',', '.');
+        }
+
+        // CRC16 Helper
+        function crc16(data) {
+            let crc = 0xFFFF;
+            for (let i = 0; i < data.length; i++) {
+                crc ^= data.charCodeAt(i) << 8;
+                for (let j = 0; j < 8; j++) {
+                    if ((crc & 0x8000) !== 0) {
+                        crc = (crc << 1) ^ 0x1021;
+                    } else {
+                        crc <<= 1;
+                    }
+                }
+            }
+            return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+        }
+
+        function generatePixPayload(data) {
+            const { key, name, city, amount } = data;
+            const pad = (id, value) => id + value.length.toString().padStart(2, '0') + value;
+
+            const gui = "0014br.gov.bcb.pix";
+            const keyField = pad("01", key);
+            const merchantAccountInfo = pad("26", gui + keyField);
+
+            let payload = "000201";
+            payload += merchantAccountInfo;
+            payload += "52040000";
+            payload += "5303986"; // BRL
+
+            if (amount && parseFloat(amount) > 0) {
+                payload += pad("54", amount);
+            }
+
+            payload += "5802BR";
+            payload += pad("59", name.substring(0, 25));
+            payload += pad("60", city.substring(0, 15));
+            payload += "62070503***";
+            payload += "6304"; // CRC16 indicator
+
+            return payload + crc16(payload);
+        }
+
+        function generatePix() {
+            const raw = getRawAmount(pixValue);
+            if (!raw || parseFloat(raw) <= 0) return;
+
+            const data = {
+                key: "4b1a87dc-f47b-4df8-9a83-565e92a475c4",
+                name: "DUNAVIELA",
+                city: "CURITIBA",
+                amount: raw
+            };
+
+            pixPayload = generatePixPayload(data);
+
+            // Show QR Container
+            const qrContainer = document.getElementById('qr-result-container');
+            qrContainer.classList.remove('hidden');
+            qrContainer.classList.add('flex');
+
+            // Render QR
+            const qrElement = document.getElementById('qrcode');
+            qrElement.innerHTML = ''; // Clear previous
+            new QRCode(qrElement, {
+                text: pixPayload,
+                width: 180,
+                height: 180,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // Set payload text
+            document.getElementById('payload-text').innerText = pixPayload;
+        }
+
+        function copyToClipboard() {
+            if (!pixPayload) return;
+            navigator.clipboard.writeText(pixPayload);
+
+            const btn = document.getElementById('copy-btn');
+            const statusContainer = document.getElementById('copy-status-container');
+
+            // Change style to copied
+            btn.classList.remove('bg-white/5', 'border-white/10', 'text-[#F1D8CD]', 'hover:bg-white/10');
+            btn.classList.add('bg-green-500/10', 'border-green-500/40', 'text-green-400');
+
+            // Change Icon/Text
+            // We do this by manually updating HTML for simplicity
+            statusContainer.innerHTML = `<span>Copiado</span> <i data-lucide="check" class="w-4 h-4"></i>`;
+            lucide.createIcons(); // Refresh icons
+
+            setTimeout(() => {
+                // Revert
+                btn.classList.add('bg-white/5', 'border-white/10', 'text-[#F1D8CD]', 'hover:bg-white/10');
+                btn.classList.remove('bg-green-500/10', 'border-green-500/40', 'text-green-400');
+                statusContainer.innerHTML = `<span>Copiar</span> <i data-lucide="copy" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform"></i>`;
+                lucide.createIcons();
+            }, 2500);
+        }
+
+        // --- VCard Logic ---
+        function downloadVCard() {
+            const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Dunaviela
+ORG:Dunaviela - Artesanato Autoral
+TEL;TYPE=CELL,VOICE:+5541996683263
+URL:https://www.instagram.com/dunaviela
+NOTE:Costuramos história antes de costurar moda.
+END:VCARD`;
+
+            const blob = new Blob([vcard], { type: 'text/vcard' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'dunaviela.vcf');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Initial Animations
+        window.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+            const mainCard = document.getElementById('main-card');
+            const greeting = document.getElementById('dynamic-greeting');
+
+            // Generate Sharing QR Code
+            const shareQrElement = document.getElementById('share-qrcode');
+            if (shareQrElement) {
+                new QRCode(shareQrElement, {
+                    text: window.location.href,
+                    width: 140,
+                    height: 140,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            }
+
+            // Set greeting
+            const hour = new Date().getHours();
+            let text = "Bem-vindo";
+            if (hour >= 5 && hour < 12) text = "Bom dia";
+            else if (hour >= 12 && hour < 18) text = "Boa tarde";
+            else text = "Boa noite";
+            greeting.innerText = text;
+
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+
+                setTimeout(() => {
+                    mainCard.classList.remove('opacity-0', 'translate-y-16');
+                    mainCard.classList.add('opacity-100', 'translate-y-0');
+
+                    setTimeout(() => {
+                        greeting.classList.remove('opacity-0');
+                    }, 500);
+                }, 200);
+            }, 800);
+        });
+
+        // Initialize Lucide
+        lucide.createIcons();
+    </script>
+    <script src="cart.js"></script>
+</body>
+
+</html>
